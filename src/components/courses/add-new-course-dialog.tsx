@@ -174,7 +174,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
               control={form.control}
               render={({ field, fieldState }) => (
                 <div>
-                  <Textarea {...field} placeholder="พัฒนาแอปพลิเคชันบนอุปกรณ์เคลื่อนที่ด้วย React Native" aria-invalid={!!fieldState.error} />
+                  <Textarea {...field} value={field.value ?? ""} placeholder="พัฒนาแอปพลิเคชันบนอุปกรณ์เคลื่อนที่ด้วย React Native" aria-invalid={!!fieldState.error} />
                   <div className={`text-sm mt-1 text-right ${descriptionValue.length > 100 ? "text-red-500 font-semibold" : "text-muted-foreground"}`}>
                     {descriptionValue.length}/100 ตัวอักษร
                   </div>
@@ -198,8 +198,8 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
                   <Controller
                     name={`instructors.${index}.name`}
                     control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Input {...field} placeholder="กรอกชื่อผู้สอน" aria-invalid={!!fieldState.error} />
+                    render={({ field }) => (
+                      <Input {...field} placeholder="กรอกชื่อผู้สอน" />
                     )}
                   />
                 </div>
@@ -260,7 +260,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
 
           <div className="flex justify-end gap-2 pt-4 border-t">
             <Button type="button" variant="outline" onClick={handleReset} className="gap-2">
-              <RotateCcw className="w-4 h-4" /> ล้างฟอร์ม
+              <RotateCcw className="h-4 w-4" /> ล้างฟอร์ม
             </Button>
             <Button type="submit">บันทึก</Button>
           </div>

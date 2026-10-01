@@ -20,9 +20,7 @@ export const createCourseFormSchema = (existingCourses: Course[]) =>
     semester: z.string().min(1, { message: "เลือกภาคการศึกษา" }),
     description: z
       .string()
-      .max(100, { message: "รายละเอียดยาวไม่เกิน 100 ตัวอักษร" })
-      .optional()
-      .default(""),
+      .max(100, { message: "รายละเอียดยาวไม่เกิน 100 ตัวอักษร" }),
     instructors: z
       .array(
         z.object({
@@ -46,7 +44,7 @@ export const createCourseFormSchema = (existingCourses: Course[]) =>
           path: ["root"],
         }
       ),
-    notifyByEmail: z.boolean().default(false),
+    notifyByEmail: z.boolean(),
   });
 
 export type CourseFormValues = z.infer<ReturnType<typeof createCourseFormSchema>>;
