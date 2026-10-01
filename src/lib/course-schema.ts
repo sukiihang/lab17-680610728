@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Course } from "../types";
+import type { Course } from "../types";
 
 export const createCourseFormSchema = (existingCourses: Course[]) =>
   z.object({
@@ -42,7 +42,7 @@ export const createCourseFormSchema = (existingCourses: Course[]) =>
         },
         {
           message: "อีเมลผู้สอนซ้ำกัน",
-          path: ["root"], // สำหรับแสดง error รวมของ array
+          path: ["root"],
         }
       ),
     notifyByEmail: z.boolean().default(false),

@@ -8,7 +8,7 @@ export interface Course {
   title: string;
   program: string;
   semester: string;
-  description?: string; 
-  instructors: Instructor[]; 
-  notifyByEmail: boolean; 
+  description?: string;
+  instructors: Instructor[];
+  notifyByEmail: boolean;
 }

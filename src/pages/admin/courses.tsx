@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Course } from "@/lib/types";
+import type { Course } from "@/lib/types";
 import { initialCourses } from "@/lib/mock-data";
-import { AddNewCourseDialog } from "@/components/add-new-course-dialog";
-import { CourseTable } from "@/components/course-table";
+import { AddNewCourseDialog } from "@/components/courses/add-new-course-dialog";
+import { CourseTable } from "@/components/courses/course-table";
 
 const LOCAL_STORAGE_KEY = "lab17-2569-680610728";
 

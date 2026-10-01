@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createCourseFormSchema, CourseFormValues } from "@/lib/schemas/course-schema";
-import { Course } from "@/lib/types";
+import { createCourseFormSchema, type CourseFormValues } from "@/lib/schemas/course-schema";
+import type { Course } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -77,7 +77,6 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          
           <div className="space-y-2">
             <Label>รหัสวิชา</Label>
             <Controller
@@ -260,7 +259,6 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
             </Button>
             <Button type="submit">บันทึก</Button>
           </div>
-
         </form>
       </DialogContent>
     </Dialog>
