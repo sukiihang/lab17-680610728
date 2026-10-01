@@ -1,4 +1,4 @@
-import type { Course } from "./types";
+import type { Course, Student, Enrollment } from "./types";
 
 export const initialCourses: Course[] = [
   {
@@ -38,3 +38,18 @@ export const initialCourses: Course[] = [
     notifyByEmail: false,
   },
 ];
+
+export const students: Student[] = [
+  {
+    studentId: "650610001",
+    firstName: "สมชาย",
+    lastName: "ใจดี",
+    program: "CPE",
+    interests: ["programming"],
+    emails: [{ address: "somchai@cmu.ac.th" }],
+  },
+];
+
+export const courses: Course[] = initialCourses;
+
+export const enrollments: Enrollment[] = [];

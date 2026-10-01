@@ -25,14 +25,14 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
 
   const form = useForm<CourseFormValues>({
     resolver: zodResolver(createCourseFormSchema(courses)),
-    mode: "onBlur",
+    mode: "onBlur", // ตรวจสอบความถูกต้องทันทีเมื่อคลิกออกนอกช่อง[cite: 2]
     defaultValues: {
       id: "",
       title: "",
       program: "",
       semester: "",
       description: "",
-      instructors: [{ name: "", email: "" }],
+      instructors: [{ name: "", email: "" }], // เปิดฟอร์มมาต้องมีผู้สอน 1 แถวเสมอ[cite: 2]
       notifyByEmail: false,
     },
   });
@@ -59,7 +59,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
       open={open} 
       onOpenChange={(isOpen) => {
         setOpen(isOpen);
-        if (!isOpen) form.reset();
+        if (!isOpen) form.reset(); // เมื่อปิด Dialog ให้ล้างฟอร์มเป็นค่าว่าง[cite: 4]
       }}
     >
       <DialogTrigger asChild>
@@ -77,6 +77,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* รหัสวิชา */}
           <div className="space-y-2">
             <Label>รหัสวิชา</Label>
             <Controller
@@ -93,6 +94,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
             />
           </div>
 
+          {/* ชื่อวิชา */}
           <div className="space-y-2">
             <Label>ชื่อวิชา</Label>
             <Controller
@@ -109,6 +111,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
             />
           </div>
 
+          {/* หลักสูตร (Select) */}
           <div className="space-y-2">
             <Label>หลักสูตร</Label>
             <Controller
@@ -133,6 +136,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
             />
           </div>
 
+          {/* ภาคการศึกษา (Radio Group) */}
           <div className="space-y-2">
             <Label>ภาคการศึกษา</Label>
             <Controller
@@ -162,6 +166,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
             />
           </div>
 
+          {/* รายละเอียด (Textarea พร้อมตัวนับตัวอักษร) */}
           <div className="space-y-2">
             <Label>รายละเอียด (ไม่บังคับ)</Label>
             <Controller
@@ -181,6 +186,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
             />
           </div>
 
+          {/* ข้อมูลผู้สอน (useFieldArray) */}
           <div className="space-y-3">
             <div className="flex justify-between items-center">
               <Label>ผู้สอน ({fields.length}/3 คน — กรอกชื่อผู้สอน และอีเมล name@cmu.ac.th)</Label>
@@ -216,7 +222,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
                   type="button"
                   variant="ghost"
                   size="icon"
-                  disabled={fields.length <= 1}
+                  disabled={fields.length <= 1} // ห้ามลบหากเหลือคนเดียว[cite: 2]
                   onClick={() => remove(index)}
                 >
                   <X className="w-4 h-4" />
@@ -232,13 +238,14 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
               type="button"
               variant="outline"
               size="sm"
-              disabled={fields.length >= 3}
+              disabled={fields.length >= 3} // ห้ามเพิ่มถ้าครบ 3 คนแล้ว[cite: 2]
               onClick={() => append({ name: "", email: "" })}
             >
               + เพิ่มผู้สอน
             </Button>
           </div>
 
+          {/* รับข่าวสารทางอีเมล (Switch) */}
           <div className="flex items-center justify-between border p-4 rounded-lg">
             <div className="space-y-0.5">
               <Label>รับข่าวสารทางอีเมล</Label>
@@ -253,6 +260,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
             />
           </div>
 
+          {/* Action Buttons */}
           <div className="flex justify-end gap-2 pt-4 border-t">
             <Button type="button" variant="outline" onClick={handleReset} className="gap-2">
               <RotateCcw className="w-4 h-4" /> ล้างฟอร์ม
