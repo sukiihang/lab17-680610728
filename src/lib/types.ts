@@ -5,6 +5,7 @@ export interface Instructor {
 
 export interface Course {
   id: string;
+  courseId?: string; // ป้องกัน Error จาก enrollment-store.ts ที่อาจเรียกใช้ courseId
   title: string;
   program: string;
   semester: string;
@@ -22,8 +23,8 @@ export interface Student {
   firstName: string;
   lastName: string;
   program: string;
-  interests: string[];
-  emails: EmailItem[];
+  interests?: string[]; // ทำให้ออปชันเพื่อไม่ให้ students.tsx ฟ้อง error
+  emails?: EmailItem[]; // ทำให้ออปชันเพื่อไม่ให้ students.tsx ฟ้อง error
 }
 
 export interface Enrollment {

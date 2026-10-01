@@ -45,7 +45,10 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
   const descriptionValue = form.watch("description") || "";
 
   const onSubmit = (data: CourseFormValues) => {
-    onAddCourse(data);
+    onAddCourse({
+      ...data,
+      courseId: data.id,
+    } as unknown as Course);
     form.reset();
     setOpen(false);
   };
