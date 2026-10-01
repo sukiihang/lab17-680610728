@@ -1,8 +1,5 @@
-import { useState, useEffect } from "react";
-import type { Course } from "@/lib/types";
-import { initialCourses } from "@/lib/mock-data";
-import { AddNewCourseDialog } from "@/components/courses/add-new-course-dialog";
-import { CourseTable } from "@/components/courses/course-table";
+import { z } from "zod";
+import type { Course } from "../types";
 
 export const createCourseFormSchema = (existingCourses: Course[]) =>
   z.object({
