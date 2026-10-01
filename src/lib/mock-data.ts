@@ -3,6 +3,7 @@ import type { Course, Student, Enrollment } from "./types";
 export const initialCourses: Course[] = [
   {
     id: "261207",
+    courseId: "261207",
     title: "Basic Computer Engineering Lab",
     program: "CPE — วิศวกรรมคอมพิวเตอร์",
     semester: "ภาคการศึกษาที่ 1",
@@ -15,6 +16,7 @@ export const initialCourses: Course[] = [
   },
   {
     id: "261497",
+    courseId: "261497",
     title: "Full Stack Development",
     program: "CPE — วิศวกรรมคอมพิวเตอร์",
     semester: "ภาคการศึกษาที่ 2",
@@ -28,6 +30,7 @@ export const initialCourses: Course[] = [
   },
   {
     id: "269101",
+    courseId: "269101",
     title: "Introduction to Information Systems and Network Engineering",
     program: "ISNE — วิศวกรรมระบบสารสนเทศและเครือข่าย",
     semester: "ภาคการศึกษาที่ 1",

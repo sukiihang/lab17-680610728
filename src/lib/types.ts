@@ -5,7 +5,7 @@ export interface Instructor {
 
 export interface Course {
   id: string;
-  courseId: string; 
+  courseId: string;
   title: string;
   program: string;
   semester: string;
@@ -23,8 +23,8 @@ export interface Student {
   firstName: string;
   lastName: string;
   program: string;
-  interests: string[];
-  emails: EmailItem[];
+  interests?: string[];
+  emails?: EmailItem[];
 }
 
 export interface Enrollment {
