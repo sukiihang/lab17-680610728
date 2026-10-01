@@ -1,64 +1,68 @@
-import { ConfirmDeleteButton } from "@/components/confirm-button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useEnrollmentStore } from "@/lib/enrollment-store";
+import { Course } from "@/lib/types";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
-export function CourseTable() {
-  const courses = useEnrollmentStore((s) => s.courses);
-  const removeCourse = useEnrollmentStore((s) => s.removeCourse);
+interface CourseTableProps {
+  courses: Course[];
+  onDeleteCourse: (id: string) => void;
+}
 
+export function CourseTable({ courses, onDeleteCourse }: CourseTableProps) {
   return (
-    <div className="rounded-lg border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>รหัสวิชา</TableHead>
-            <TableHead>ชื่อวิชา</TableHead>
-            <TableHead>ผู้สอน</TableHead>
-            <TableHead className="w-20">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {courses.length === 0 && (
-            <TableRow>
-              <TableCell
-                colSpan={4}
-                className="h-20 text-center text-muted-foreground"
-              >
-                ยังไม่มีวิชาที่เปิดสอน
-              </TableCell>
-            </TableRow>
-          )}
+    <div className="border rounded-lg overflow-x-auto">
+      <table className="w-full text-sm text-left border-collapse">
+        <thead className="bg-muted/50 border-b text-muted-foreground">
+          <tr>
+            <th className="p-3">รหัสวิชา</th>
+            <th className="p-3">ชื่อวิชา</th>
+            <th className="p-3">หลักสูตร</th>
+            <th className="p-3">ภาคการศึกษา</th>
+            <th className="p-3">รายละเอียด</th>
+            <th className="p-3">ผู้สอน</th>
+            <th className="p-3">รับข่าวสารทางอีเมล</th>
+            <th className="p-3 text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
           {courses.map((course) => (
-            <TableRow key={course.courseId}>
-              <TableCell>{course.courseId}</TableCell>
-              <TableCell>{course.courseTitle}</TableCell>
-              <TableCell>
-                {/* แสดงรายชื่อผู้สอนเป็นข้อความธรรมดา คั่นด้วย ", " */}
-                {course.instructors.length === 0 ? (
-                  <span className="text-muted-foreground">ยังไม่มีผู้สอน</span>
-                ) : (
-                  course.instructors.join(", ")
-                )}
-              </TableCell>
-              <TableCell>
-                <ConfirmDeleteButton
-                  label={`ลบวิชา ${course.courseId}`}
-                  title="ลบวิชา?"
-                  description={`ลบ ${course.courseId} — ${course.courseTitle} ออกจากรายวิชาที่เปิดสอน พร้อมการลงทะเบียนทั้งหมดของวิชานี้`}
-                  onConfirm={() => removeCourse(course.courseId)}
-                />
-              </TableCell>
-            </TableRow>
+            <tr key={course.id} className="border-b hover:bg-muted/30">
+              <td className="p-3 font-medium">{course.id}</td>
+              <td className="p-3">{course.title}</td>
+              <td className="p-3">
+                <Badge variant="outline">{course.program.split(" ")[0]}</Badge>
+              </td>
+              <td className="p-3">{course.semester}</td>
+              <td className="p-3">{course.description || "—"}</td>
+              <td className="p-3">
+                <div className="space-y-1">
+                  {course.instructors.map((ins, idx) => (
+                    <div key={idx} className="text-xs">
+                      <p className="font-semibold">{ins.name}</p>
+                      <p className="text-muted-foreground">{ins.email}</p>
+                    </div>
+                  ))}
+                </div>
+              </td>
+              <td className="p-3">
+                <Badge variant={course.notifyByEmail ? "default" : "secondary"}>
+                  {course.notifyByEmail ? "รับ" : "ไม่รับ"}
+                </Badge>
+              </td>
+              <td className="p-3 text-center">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-red-500 hover:text-red-700"
+                  onClick={() => onDeleteCourse(course.id)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
     </div>
   );
 }
