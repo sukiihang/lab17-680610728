@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray, Controller, type DefaultValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createCourseFormSchema, type CourseFormValues } from "@/lib/schemas/course-schema";
 import type { Course } from "@/lib/types";
@@ -20,21 +20,23 @@ interface AddNewCourseDialogProps {
   onAddCourse: (course: Course) => void;
 }
 
+const emptyCourseForm: DefaultValues<CourseFormValues> = {
+  id: "",
+  title: "",
+  program: "",
+  semester: "",
+  description: "",
+  instructors: [{ name: "", email: "" }],
+  notifyByEmail: false,
+};
+
 export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogProps) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<CourseFormValues>({
     resolver: zodResolver(createCourseFormSchema(courses)),
     mode: "onBlur",
-    defaultValues: {
-      id: "",
-      title: "",
-      program: "",
-      semester: "",
-      description: "",
-      instructors: [{ name: "", email: "" }],
-      notifyByEmail: false,
-    },
+    defaultValues: emptyCourseForm,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -45,16 +47,18 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
   const descriptionValue = form.watch("description") || "";
 
   const onSubmit = (data: CourseFormValues) => {
-    onAddCourse({
+    const newCourse: Course = {
       ...data,
       courseId: data.id,
-    } as unknown as Course);
-    form.reset();
+      description: data.description || "",
+    };
+    onAddCourse(newCourse);
+    form.reset(emptyCourseForm);
     setOpen(false);
   };
 
   const handleReset = () => {
-    form.reset();
+    form.reset(emptyCourseForm);
   };
 
   return (
@@ -62,7 +66,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
       open={open} 
       onOpenChange={(isOpen) => {
         setOpen(isOpen);
-        if (!isOpen) form.reset();
+        if (!isOpen) form.reset(emptyCourseForm);
       }}
     >
       <DialogTrigger render={<Button className="gap-2" />}>
@@ -117,7 +121,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
               control={form.control}
               render={({ field, fieldState }) => (
                 <div>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select onValueChange={field.onChange} value={field.value ?? ""}>
                     <SelectTrigger aria-invalid={!!fieldState.error}>
                       <SelectValue placeholder="เลือกหลักสูตร" />
                     </SelectTrigger>
@@ -141,7 +145,7 @@ export function AddNewCourseDialog({ courses, onAddCourse }: AddNewCourseDialogP
               control={form.control}
               render={({ field, fieldState }) => (
                 <div>
-                  <RadioGroup onValueChange={field.onChange} value={field.value} className="flex gap-4">
+                  <RadioGroup onValueChange={field.onChange} value={field.value ?? ""} className="flex gap-4">
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="ภาคการศึกษาที่ 1" id="sem1" />
                       <Label htmlFor="sem1">ภาคการศึกษาที่ 1</Label>

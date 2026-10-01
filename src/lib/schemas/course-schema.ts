@@ -5,10 +5,11 @@ export const createCourseFormSchema = (existingCourses: Course[]) =>
   z.object({
     id: z
       .string()
+      .min(1, { message: "กรุณากรอกรหัสวิชา" })
       .length(6, { message: "รหัสวิชาต้องเป็นตัวเลข 6 หลัก" })
       .regex(/^\d+$/, { message: "รหัสวิชาต้องเป็นตัวเลขเท่านั้น" })
       .refine(
-        (val) => !existingCourses.some((course) => course.id === val),
+        (val) => !existingCourses.some((course) => course.id === val || course.courseId === val),
         { message: "รหัสวิชานี้มีอยู่แล้ว" }
       ),
     title: z
